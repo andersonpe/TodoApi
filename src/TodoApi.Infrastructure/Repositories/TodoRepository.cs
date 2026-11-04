@@ -9,13 +9,12 @@ namespace TodoApi.Infrastructure.Repositories
     {
         public async Task<TodoItem?> GetByIdAsync(int id) => await db.Todos.FindAsync(id);
 
-        public async Task<IEnumerable<TodoItem>> GetAllAsync(TodoStatus? status, DateTime? from, DateTime? to)
+        public async Task<IEnumerable<TodoItem>> GetAllAsync(TodoStatus? status, DateTime? dataDeVencimento)
         {
             var query = db.Todos.AsNoTracking().AsQueryable();
             if (status.HasValue) query = query.Where(t => t.Status == status);
-            if (from.HasValue) query = query.Where(t => t.DueDate >= from);
-            if (to.HasValue) query = query.Where(t => t.DueDate <= to);
-            return await query.OrderBy(t => t.DueDate).ToListAsync();
+            if (dataDeVencimento.HasValue) query = query.Where(t => t.DataDeVencimento.Equals(dataDeVencimento));
+            return await query.OrderBy(t => t.DataDeVencimento).ToListAsync();
         }
 
         public async Task AddAsync(TodoItem item) => await db.Todos.AddAsync(item);

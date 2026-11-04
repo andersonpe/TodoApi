@@ -16,8 +16,8 @@ namespace TodoApi.Infrastructure
             mb.Entity<TodoItem>(e =>
             {
                 e.HasKey(x => x.Id);
-                e.Property(x => x.Title).IsRequired().HasMaxLength(200);
-                e.Property(x => x.Description).HasMaxLength(1000);
+                e.Property(x => x.Titulo).IsRequired().HasMaxLength(200);
+                e.Property(x => x.Descricao).HasMaxLength(1000);
                 e.Property(x => x.Status).HasConversion<string>();
             });
         }

@@ -1,22 +1,15 @@
-﻿using TodoApi.Application.Dtos;
+﻿using TodoApi.Application.Dtos.Todo;
+using TodoApi.Application.Interfaces;
 using TodoApi.Domain.Entities;
 using TodoApi.Domain.Enumerators;
 using TodoApi.Domain.Interfaces;
-namespace TodoApi.Application.Services;
 
-public interface ITodoService
-{
-    Task<IEnumerable<TodoResponseDto>> GetAllAsync(TodoStatus? status, DateTime? from, DateTime? to);
-    Task<TodoResponseDto?> GetByIdAsync(int id);
-    Task<TodoResponseDto> CreateAsync(CreateTodoDto dto);
-    Task<bool> UpdateAsync(int id, UpdateTodoDto dto);
-    Task<bool> DeleteAsync(int id);
-}
+namespace TodoApi.Application.Services;
 
 public class TodoService(IUnitOfWork uow) : ITodoService
 {
-    public async Task<IEnumerable<TodoResponseDto>> GetAllAsync(TodoStatus? status, DateTime? from, DateTime? to)
-        => (await uow.Todos.GetAllAsync(status, from, to)).Select(ToDto);
+    public async Task<IEnumerable<TodoResponseDto>> GetAllAsync(TodoStatus? status, DateTime? dataDeVencimento)
+        => (await uow.Todos.GetAllAsync(status, dataDeVencimento)).Select(ToDto);
 
     public async Task<TodoResponseDto?> GetByIdAsync(int id)
     {
@@ -28,10 +21,10 @@ public class TodoService(IUnitOfWork uow) : ITodoService
     {
         var item = new TodoItem
         {
-            Title = dto.Title,
-            Description = dto.Description,
+            Titulo = dto.Titulo,
+            Descricao = dto.Descricao,
             Status = dto.Status,
-            DueDate = dto.DueDate
+            DataDeVencimento = dto.DataDeVencimento
         };
         await uow.Todos.AddAsync(item);
         await uow.CommitAsync();
@@ -42,8 +35,8 @@ public class TodoService(IUnitOfWork uow) : ITodoService
     {
         var item = await uow.Todos.GetByIdAsync(id);
         if (item is null) return false;
-        item.Title = dto.Title; item.Description = dto.Description;
-        item.Status = dto.Status; item.DueDate = dto.DueDate;
+        item.Titulo = dto.Titulo; item.Descricao = dto.Descricao;
+        item.Status = dto.Status; item.DataDeVencimento = dto.DataDeVencimento;
         uow.Todos.Update(item);
         await uow.CommitAsync();
         return true;
@@ -59,5 +52,5 @@ public class TodoService(IUnitOfWork uow) : ITodoService
     }
 
     private static TodoResponseDto ToDto(TodoItem t)
-        => new(t.Id, t.Title, t.Description, t.Status, t.DueDate);
+        => new(t.Id, t.Titulo, t.Descricao, t.Status, t.DataDeVencimento);
 }
