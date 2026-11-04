@@ -13,8 +13,8 @@ public class TodosController(ITodoService service) : ControllerBase
     /// <summary>Lista tarefas com filtros opcionais por status e data de vencimento.</summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TodoResponseDto>>> GetAll(
-        [FromQuery] TodoStatus? status, [FromQuery] DateTime? dataVencimento)
-        => Ok(await service.GetAllAsync(status, dataVencimento));
+        [FromQuery] TodoStatus? status, [FromQuery] DateTime? dataDeVencimento)
+        => Ok(await service.GetAllAsync(status, dataDeVencimento));
 
     [HttpGet("{id:int}")]
     public async Task<ActionResult<TodoResponseDto>> GetById(int id)
