@@ -55,7 +55,7 @@ dotnet restore
 dotnet run --project src/TodoApi.Api
 ```
 
-O banco `todo.db` é criado automaticamente na primeira execução. Os endereços aparecem no console; por padrão:
+O banco `todo.db` é criado automaticamente na primeira execução. O endereço aparece no console; por padrão:
 
 - HTTP: `http://localhost:5064`
 
@@ -89,11 +89,11 @@ docker compose up --build
 Sem o Compose:
 
 ```bash
-docker build -t SEU_USUARIO/todo-api:1.0 .
-docker run -p 8080:8080 SEU_USUARIO/todo-api:1.0
+docker build -t andersonpdasilva/todo-api:1.0 .
+docker run -p 8080:8080 andersonpdasilva/todo-api:1.0
 ```
 
-Imagem publicada no Docker Hub: `https://hub.docker.com/r/SEU_USUARIO/todo-api`
+Imagem publicada no Docker Hub: `https://hub.docker.com/r/andersonpdasilva/todo-api`
 
 ## Testes
 
